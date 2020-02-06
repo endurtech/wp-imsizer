@@ -1,7 +1,7 @@
 === WP Imsizer ===
 Contributors: endurox
 Donate link: https://endurtech.com/give-thanks/
-Tags: image, resize, scale, scaled, file size limit
+Tags: image, resize, scale, scaled, file size limit, png convert
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
@@ -35,7 +35,7 @@ Did [this plugin](https://endurtech.com/wpfrom-email-wordpress-plugin/) save you
 
 == Screenshots ==
 
-1. Coming Soon.
+1. WP Imsizer Options page.
 
 == Changelog ==
 

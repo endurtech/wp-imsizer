@@ -64,34 +64,39 @@ $DEBUG_LOGGER = false;
 add_action( 'admin_init', 'wp_imsizer_register' );
 function wp_imsizer_register()
 {
-  add_option( 'wp_imsizer_kill_wp_limit', 'no', '' );
-
+  //add_option( 'wp_imsizer_kill_wp_limit', '0', '' );
+  add_option( 'wp_imsizer_wplimit_onoff', '0', '' );
+  
+  //add_option( 'wp_imsizer_onoff', '0', '' );
   add_option( 'wp_imsizer_onoff', 'no', '' );
   add_option( 'wp_imsizer_width', '1200', '' );
   add_option( 'wp_imsizer_height', '1200', '' );
-
+  
+  //add_option( 'wp_imsizer_restrict_size', '0', '' );
   add_option( 'wp_imsizer_restrict_size', 'no', '' );
   add_option( 'wp_imsizer_max_file_size', '500', '' );
-  add_option( 'wp_imsizer_max_file_error', 'Your image file size must be smaller than 500KB.', '' );
+  add_option( 'wp_imsizer_file_size_error', 'Your image file size must be smaller than 500KB.', '' );
   
+  //add_option( 'wp_imsizer_png2jpg', '0', '' );
   add_option( 'wp_imsizer_convertpng_yesno', 'no', '' );
-
+  
 }
 
-// WPFrom Plugin Deactivation Database Cleanup, You're welcome!
+// WP Imsizer Plugin Deactivation database cleanup. You're welcome!
 register_deactivation_hook( __FILE__, 'wp_imsizer_deactivation_cleaner' );
 function wp_imsizer_deactivation_cleaner()
 {
-  delete_option( 'wp_imsizer_kill_wp_limit' );
-
+  delete_option( 'wp_imsizer_wplimit_onoff' );
+  
   delete_option( 'wp_imsizer_onoff' );
   delete_option( 'wp_imsizer_width' );
   delete_option( 'wp_imsizer_height' );
-
+  
   delete_option( 'wp_imsizer_restrict_size' );
   delete_option( 'wp_imsizer_max_file_size' );
-  delete_option( 'wp_imsizer_max_file_error' );
+  delete_option( 'wp_imsizer_file_size_error' );
   
+  //delete_option( 'wp_imsizer_png2jpg' );
   delete_option( 'wp_imsizer_convertpng_yesno' );
 }
 
@@ -102,6 +107,13 @@ add_action( 'wp_handle_upload', 'wp_imsizer_upload_resize' );
 
 // Plugin settings page
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'wp_imsizer_plugin_links' );
+
+// Disable WordPress "Password Changed" user email
+$wp_imsizer_wplimit_onoff = get_option( 'wp_imsizer_wplimit_onoff' );
+if( $wp_imsizer_wplimit_onoff == '1' )
+{
+  add_filter( 'big_image_size_threshold', '__return_false' );
+}
 
 // Add ths link to Settings in Plugins page
 function wp_imsizer_plugin_links( $links )
@@ -138,9 +150,13 @@ function wp_imsizer_options( )
     }
 
     // Set plugin variables
+    $threshold_option = ( $_POST['wp_imsizer_wplimit'] == '1' ? '1' : '0' );
+
     $resizing_enabled = ( $_POST['yesno'] == 'yes' ? 'yes' : 'no' );
+    
     $max_width   = intval( $_POST['maxwidth'] );
     $max_height  = intval( $_POST['maxheight'] );
+    
     $convert_png_to_jpg = ( isset( $_POST['convertpng'] ) && $_POST['convertpng'] == 'yes' ? 'yes' : 'no' );
 
     // Validate width input integer, or use prior setting
@@ -153,6 +169,8 @@ function wp_imsizer_options( )
     $max_height = ( ctype_digit( strval( $max_height ) ) == false ) ? get_option( 'wp_imsizer_height' ) : $max_height;
     update_option( 'wp_imsizer_height', $max_height );
 
+    // On/Off threshold limit
+    ( $threshold_option == '1' ) ? update_option( 'wp_imsizer_wplimit_onoff', '1' ) : update_option( 'wp_imsizer_wplimit_onoff', '0' );
     // On/Off power switch
     ( $resizing_enabled == 'yes' ) ? update_option( 'wp_imsizer_onoff', 'yes' ) : update_option( 'wp_imsizer_onoff', 'no' );
     // Convert PNG
@@ -163,15 +181,17 @@ function wp_imsizer_options( )
   }
   
   // Get options, show settings form
+  $kill_wp_limit      = get_option( 'wp_imsizer_wplimit_onoff' );
+
   $resizing_enabled   = get_option( 'wp_imsizer_onoff' );
   $max_width          = get_option( 'wp_imsizer_width' );
   $max_height         = get_option( 'wp_imsizer_height' );
   
-  $convert_png_to_jpg = get_option( 'wp_imsizer_convertpng_yesno' );
-  
+  $restrict_size  = get_option( 'wp_imsizer_restrict_size' );
   $max_file_size  = get_option( 'wp_imsizer_max_file_size' );
-  $max_file_error = get_option( 'wp_imsizer_max_file_error' );
-  $kill_wp_limit  = get_option( 'wp_imsizer_kill_wp_limit' );
+  $max_file_error = get_option( 'wp_imsizer_file_size_error' );
+  
+  $convert_png_to_jpg = get_option( 'wp_imsizer_convertpng_yesno' );
 
   // Options Page Stylesheet
   echo '<style type="text/css"></style>';
@@ -183,11 +203,22 @@ function wp_imsizer_options( )
     <div style="clear:both;"></div>
   </div>
 
-	<hr style="margin:20px 0px;">
-	<h3>Resize Image Uploads</h3>
+	<hr style="margin-bottom:20px;">
+	<h3>Image Resizing Uploads</h3>
 
 	<form method="post" accept-charset="utf-8">
 
+    <?php ( $kill_wp_limit == '1' ) ? $wp_imsizer_wplimit_select = 'checked="checked" ' : $wp_imsizer_wplimit_select = ''; ?>
+		<table class="form-table">
+			<tr>
+				<th scope="row">Remove Threshold Limit?</th>
+				<td valign="top">
+          <input name="wp_imsizer_wplimit" id="wp_imsizer_wplimit" type="checkbox" value="1" <?php echo $wp_imsizer_wplimit_select; ?>/> <label for="wp_imsizer_wplimit">Disable WordPress default 2560px image limit.</em></label>
+				</td>
+			</tr>
+    </table>
+    
+    <?php /*( $resizing_enabled == '1' ) ? $wp_imsizer_resize_select = 'checked="checked" ' : $wp_imsizer_resize_select = '';*/ ?>
 		<table class="form-table">
 			<tr>
 				<th scope="row">Resize Uploaded Images?</th>
@@ -213,7 +244,7 @@ function wp_imsizer_options( )
 				</td>
 			</tr>
     </table>
-      
+    <!--
 		<hr style="margin:20px 0px;">
 		<h3>Limit Large Image Uploads</h3>
 
@@ -247,27 +278,32 @@ function wp_imsizer_options( )
 				</td>
 			</tr>
     </table>
+    -->
 		<hr style="margin:20px 0px;">
 		<h3>Image Conversion Options</h3>
-		<p>Enable PNG to JPG conversion of PNG images that <strong>don't have a transparency layer.</strong>.</p>
-		<p>If enabled, conversion will occur on all suitable PNG images, reguardless of resize need.</p>
-		<table class="form-table">
+		
+    <p>Enable PNG to JPG conversion of PNG images that <strong>don't have a transparency layer</strong>.<br />
+		Conversion will occur on all suitable PNG images, reguardless if resizing is need.</p>
+		
+    <table class="form-table">
       <tr>
         <th scope="row">Convert PNG to JPG</th>
         <td>
           <select id="convert-png" name="convertpng">
-            <option value="no" <?php if( $convert_png_to_jpg == 'no' ) : ?>selected<?php endif; ?>>No</option>
-            <option value="yes" <?php if( $convert_png_to_jpg == 'yes' ) : ?>selected<?php endif; ?>>Yes</option>
+            <option value="no" <?php if( $convert_png_to_jpg == 'no' ) : echo 'selected=selected'; endif; ?>>No</option>
+            <option value="yes" <?php if( $convert_png_to_jpg == 'yes' ) : echo 'selected=selected'; endif; ?>>Yes</option>
           </select>
         </td>
       </tr>
 		</table>
+    
 		<hr style="margin-top:30px;">
 		<p class="submit" style="margin-top:10px;border-top:1px solid #eee;padding-top:20px;">
       <input type="hidden" name="action" value="update" />
       <?php wp_nonce_field( 'wp-imsizer-options-update' ); ?>
-		  <input id="submit" name="wp_imsizer_options_update" class="button button-primary" type="submit" value="Update Options">
+		  <input id="submit" name="wp_imsizer_options_update" class="button button-primary" type="submit" value="SAVE OPTIONS">
 		</p>
+    
 	</form>
 </div>
 <?php
