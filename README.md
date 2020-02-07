@@ -30,9 +30,9 @@ License: GPLv3 or later
 
 ## Installation
 
-1. Upload the plugin folder to your '/wp-content/plugins/' folder.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Visit the plugin settings page and adjust the options as needed.
+1. Upload the plugin folder to your '/wp-content/plugins/' folder.  
+2. Activate the plugin through the 'Plugins' menu in WordPress.  
+3. Visit the plugin settings page and adjust the options as needed.  
 
 ## Screenshots
 
