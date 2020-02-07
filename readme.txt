@@ -12,13 +12,13 @@ Auto resize/convert image uploads to set max height/width or file type. Limit im
 
 == Description ==
 
-Imsizer will save you and your clients or fellow blog contributors from having to manually resize all of your images to a more web friendly size. You can even restrict the total file size of uploaded images and even disable the WordPress (since v5.3) image 2560px threshold limit.  
+WP Imsizer will save you and your clients or fellow blog contributors from having to manually resize all of your images to a more web friendly size. You can even restrict the total file size of uploaded images and even disable the [WordPress image 2560px threshold limit](https://make.wordpress.org/core/2019/10/11/updates-to-image-processing-in-wordpress-5-3/) which was introduced in version 5.3.  
 
-When someone uploads an image that is larger than your set dimensions, WP Imsizer will automatically scale it down to  your desired pre-configured size and replace the original image.  
+When someone uploads an image that is larger than your set dimensions, WP Imsizer will automatically scale it down to your desired pre-configured size and replace the original image.  
 
 This plugin is ideal for blogs that do not require super hi-resolution images and thus improves up your web sites page speed performance optimizing your web site for search engines (SEO).  
 
-Did [this plugin](https://endurtech.com/wpfrom-email-wordpress-plugin/) save you time and add value? [Share your appreciation](https://endurtech.com/give-thanks/) and support future improvements.  
+Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you time and add value? [Share your appreciation](https://endurtech.com/give-thanks/) and support future improvements.  
 
 == Features ==
 
