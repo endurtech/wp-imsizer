@@ -46,6 +46,24 @@ function prefilter_image_size( $file )
   return $file;
 }
 
+// FEATURE 3
+// Gravity Forms Image Upload Resizer. Replace _1 with your Form ID
+add_action( "gform_after_submission_2", "gf_resize_images", 10, 2 );
+function gf_resize_images( $entry, $form )
+{
+	// Replace 2 with field ID of upload field
+	$url =  $entry[1];
+	$parsed_url = parse_url( $url );
+	$path = $_SERVER['DOCUMENT_ROOT'] . $parsed_url['path'];
+	$image = wp_get_image_editor( $path );
+	if ( ! is_wp_error( $image ) )
+	{
+		// Replace 800,600 with desired dimensions. If smaller, no crop applied.
+		$result = $image->resize( 800, 600, false );
+		$result = $image->save($path);
+	}
+}
+
 -------------------------------------------------- */
 
 if( ! defined( 'ABSPATH' ) )
