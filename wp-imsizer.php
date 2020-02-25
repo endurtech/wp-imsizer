@@ -23,13 +23,6 @@ NOTEPAD:
 =====================================================
 no bmp or gif conversion or resize, check for such an image and ignore
 
-// FEATURE 1 
-- There is this new feature in WordPress 5.3 that allows users to upload big image file
-(threshold being either width or height of 2560px) and the core will scale it down.
-- Meanwhile there is a workaround, we can disable the new scale down big image feature 
-with just one line of code, see detail in this link below.
-//add_filter( 'big_image_size_threshold', '__return_false' );
-
 // FEATURE 2
 // Limit Image Upload File Size
 add_filter( 'wp_handle_upload_prefilter', 'prefilter_image_size' );
@@ -126,7 +119,8 @@ add_action( 'wp_handle_upload', 'wp_imsizer_upload_resize' );
 // Plugin settings page
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'wp_imsizer_plugin_links' );
 
-// Disable WordPress "Password Changed" user email
+// Filter WordPress image size threshold setting
+// If image upload exceeds 2560px (width/height) WordPress auto scales it down and keeps the original (inaccessible).
 $wp_imsizer_wplimit_onoff = get_option( 'wp_imsizer_wplimit_onoff' );
 if( $wp_imsizer_wplimit_onoff == '1' )
 {
