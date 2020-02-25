@@ -120,7 +120,7 @@ add_action( 'wp_handle_upload', 'wp_imsizer_upload_resize' );
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'wp_imsizer_plugin_links' );
 
 // Filter WordPress image size threshold setting
-// If image upload exceeds 2560px (width/height) WordPress auto scales it down and keeps the original (inaccessible).
+// If image upload exceeds 2560px (width/height) WordPress auto scales it down keeping the original (inaccessible).
 $wp_imsizer_wplimit_onoff = get_option( 'wp_imsizer_wplimit_onoff' );
 if( $wp_imsizer_wplimit_onoff == '1' )
 {
