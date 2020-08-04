@@ -4,8 +4,8 @@ Contributors: Manny Rodrigues
 Donations: https://endurtech.com/give-thanks/  
 Tags: image, resize, scale, scaled, file size limit, png convert  
 Requires WP: 5.3  
-Tested to: 5.3.2  
-Stable tag: 1.1.0  
+Tested to: 5.5  
+Stable tag: 1.1.1  
 License: GPLv3 or later  
 
 ## Description
@@ -41,8 +41,8 @@ License: GPLv3 or later
 
 ## Changelog
 
-= 1.2.0 =
-* Coming Soon.
+= 1.1.1 =
+* Tested against WordPress 5.5
 
 = 1.1.0 =
 * Initial release.
