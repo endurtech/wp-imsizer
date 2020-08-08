@@ -55,3 +55,5 @@ License: GPLv3 or later
   * No.
 * I've installed this plugin but my images are not resizing.
   * Upon installation you must visit the settings page to turn the resizing option on.
+* I found this plugin helpful. How can I help?
+  * Happy to have helped! Support my work and future improvements to this plugin by [sending me a tip using your Brave browser](https://endurtech.com/send-a-tip-using-the-brave-browser/) or by [sending me a one-time donation](https://endurtech.com/give-thanks/). If you have any ideas for improvements or want to contribute to the code you may [get in touch with me](https://endurtech.com/contact/).
