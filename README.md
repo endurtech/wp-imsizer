@@ -4,8 +4,8 @@ Contributors: Manny Rodrigues
 Donations: https://endurtech.com/give-thanks/  
 Tags: image, resize, scale, scaled, file size limit, png convert  
 Requires WP: 5.3  
-Tested to: 5.5  
-Stable tag: 1.1.1  
+Tested to: 5.6  
+Stable tag: 1.1.2  
 License: GPLv3 or later  
 
 ## Description
@@ -40,6 +40,9 @@ License: GPLv3 or later
 1. WP Imsizer options page.
 
 ## Changelog
+
+= 1.1.2 =
+* Tested against WordPress 5.6
 
 = 1.1.1 =
 * Tested against WordPress 5.5
