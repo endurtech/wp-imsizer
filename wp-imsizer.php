@@ -8,8 +8,8 @@ Author URI: https://endurtech.com
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
-Tested up to: 5.6
-Version: 1.1.2
+Tested up to: 5.7
+Version: 1.1.3
 Text Domain: wp-imsizer
 Domain Path: /locale
 
