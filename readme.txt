@@ -1,20 +1,22 @@
 === WP Imsizer ===
 Contributors: endurox
 Donate link: https://endurtech.com/give-thanks/
-Tags: image, resize, scale, scaled, file size limit, png convert
+Tags: image, alt, title, seo, resize, scale, scaled, file size limit, png convert
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
-Tested up to: 5.7
-Stable tag: 1.1.3
+Tested up to: 5.8
+Stable tag: 1.2.0
 
-Auto resize/convert image uploads to set max height/width or file type. Limit image file size and disable WP 2560px image threshold limit.
+Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
 
 == Description ==
 
-WP Imsizer (short for Image Resizer) is a plugin for [WordPress](https://wordpress.org/) which will save you and your clients or fellow blog contributors from having to manually resize all of your images to a more visitor friendly size. You can even restrict the total file size of uploaded images and even disable the [WordPress image 2560px threshold limit](https://make.wordpress.org/core/2019/10/11/updates-to-image-processing-in-wordpress-5-3/) which was introduced in version 5.3.
+WP Imsizer (short for Image Resizer) is a plugin for [WordPress](https://wordpress.org/) which will save you and your clients or fellow blog contributors from having to manually resize all of your images to a more visitor friendly size. You can even restrict the total file size of uploaded images and even disable the [WordPress image 2560px threshold limit](https://make.wordpress.org/core/2019/10/11/updates-to-image-processing-in-wordpress-5-3/) which was introduced in version 5.3.  
 
-When someone uploads an image that is larger than your set dimensions, WP Imsizer will automatically scale it down to your desired pre-configured size and replace the original image.
+When someone uploads an image that is larger than your set dimensions, WP Imsizer will automatically scale it down to your desired pre-configured size and replace the original image.  
+
+Now can automatically set filtered image upload Alt, Title, Caption, and Descriptions from filename. Filters out hyphes, underscores, commas and extra spaces. Also, automatically capitalizes each word and will disable the default WordPress insertion of Titles from filenames.  
 
 The [WP Imsizer Plugin](https://wordpress.org/plugins/wp-imsizer/) is ideal for WordPress web sites and blogs that do not require super high resolution images. This will save space on your server, speed up your page speed performance, and reduce bandwidth utilization for both you and your visitors. As a result of being able to quickly display your media on your web site, this will most likely [improve your search engine ranking](https://moz.com/learn/seo/page-speed).  
 
@@ -24,6 +26,7 @@ Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you t
 
 * Disable the WordPress 2560px image upload threshold limit.
 * Resize uploaded images to a pre-defined maximum height or maximum width.
+* Image S.E.O. Options to filter and set image upload Alts, Titles, Captions and Descriptions.
 * (Coming soon) Restrict image uploads which exceed your specified max file size.
 * Convert, non-transparent, PNG images to JPG.
 * (Coming soon) Ability to selectively bulk resize your existing images.
@@ -41,6 +44,12 @@ Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you t
 1. WP Imsizer options page.
 
 == Changelog ==
+
+= 1.2.0 (2021-07-27) =
+* Introduced Image S.E.O. Options to auto filter and set uploaded image Alt tags, Titles, Captions and Descriptions.
+
+= 1.1.4 =
+* Tested against WordPress 5.8
 
 = 1.1.3 =
 * Tested against WordPress 5.7

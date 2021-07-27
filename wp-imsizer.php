@@ -2,20 +2,21 @@
 /* --------------------------------------------------
 Plugin Name: WP Imsizer
 Plugin URI: https://endurtech.com/wp-imsizer-wordpress-plugin/
-Description: Auto resize and convert uploaded images to a set max height/width or file type. Also, limits file size of image uploads and disables WordPress (since v5.3) image 2560px threshold limit.
+Description: Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
 Author: Manny Rodrigues
 Author URI: https://endurtech.com
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
-Tested up to: 5.7
-Version: 1.1.3
+Tested up to: 5.8
+Version: 1.2.0
 Text Domain: wp-imsizer
 Domain Path: /locale
 
 Special Thanks/Acknowledgements:
 + Resize Image After Upload - https://wordpress.org/plugins/resize-image-after-upload/
 + Imsanity - https://wordpress.org/plugins/imsanity/
++ Special Thanks to Brutal Business: https://brutalbusiness.com/automatically-set-the-wordpress-image-title-alt-text-other-meta/
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
@@ -64,7 +65,7 @@ if( ! defined( 'ABSPATH' ) )
   exit(); // No direct access
 }
 
-$PLUGIN_VERSION = '1.1.2';
+$PLUGIN_VERSION = '1.2.0';
 $DEBUG_LOGGER = false;
 //define( 'WPIMSIZER_TITLE', 'WP Imsizer' ); // Title
 //define( 'WPIMSIZER_TITLE_OPTIONS', 'WP Imsizer Options' ); // Settings/Options page title 
@@ -82,6 +83,12 @@ function wp_imsizer_register()
   add_option( 'wp_imsizer_onoff', 'no', '' );
   add_option( 'wp_imsizer_width', '1200', '' );
   add_option( 'wp_imsizer_height', '1200', '' );
+  
+  // Image S.E.O. Options
+  add_option( 'wp_imsizer_setalts', '0', '' ); // Sets image alt tag from filename
+  add_option( 'wp_imsizer_setname', '0', '' ); // Sets image title tag from filename
+  add_option( 'wp_imsizer_setcapt', '0', '' ); // Sets image caption tag from filename
+  add_option( 'wp_imsizer_setdesc', '0', '' ); // Sets image description tag from filename
   
   //add_option( 'wp_imsizer_restrict_size', '0', '' );
   add_option( 'wp_imsizer_restrict_size', 'no', '' );
@@ -103,6 +110,12 @@ function wp_imsizer_deactivation_cleaner()
   delete_option( 'wp_imsizer_width' );
   delete_option( 'wp_imsizer_height' );
   
+  // Image S.E.O. Options
+  delete_option( 'wp_imsizer_setalts' ); // Sets image alt tag from filename
+  delete_option( 'wp_imsizer_setname' ); // Sets image title tag from filename
+  delete_option( 'wp_imsizer_setcapt' ); // Sets image caption tag from filename
+  delete_option( 'wp_imsizer_setdesc' ); // Sets image description tag from filename
+
   delete_option( 'wp_imsizer_restrict_size' );
   delete_option( 'wp_imsizer_max_file_size' );
   delete_option( 'wp_imsizer_file_size_error' );
@@ -113,6 +126,7 @@ function wp_imsizer_deactivation_cleaner()
 
 // Hook in the options page
 add_action( 'admin_menu', 'wp_imsizer_options_page' );
+
 // Hook the function to the upload handler
 add_action( 'wp_handle_upload', 'wp_imsizer_upload_resize' );
 
@@ -162,30 +176,41 @@ function wp_imsizer_options( )
     }
 
     // Set plugin variables
-    $threshold_option = ( $_POST['wp_imsizer_wplimit'] == '1' ? '1' : '0' );
+    $threshold_option = ( isset( $_POST['wp_imsizer_wplimit'] ) && $_POST['wp_imsizer_wplimit'] == '1' ? '1' : '0' );
+    // On/Off threshold limit
+    ( $threshold_option == '1' ) ? update_option( 'wp_imsizer_wplimit_onoff', '1' ) : update_option( 'wp_imsizer_wplimit_onoff', '0' );
 
-    $resizing_enabled = ( $_POST['yesno'] == 'yes' ? 'yes' : 'no' );
-    
-    $max_width   = intval( $_POST['maxwidth'] );
-    $max_height  = intval( $_POST['maxheight'] );
-    
-    $convert_png_to_jpg = ( isset( $_POST['convertpng'] ) && $_POST['convertpng'] == 'yes' ? 'yes' : 'no' );
+    $resizing_enabled = $_POST['yesno'] == 'yes' ? 'yes' : 'no';
+    // On/Off power switch
+    ( $resizing_enabled == 'yes' ) ? update_option( 'wp_imsizer_onoff', 'yes' ) : update_option( 'wp_imsizer_onoff', 'no' );
 
     // Validate width input integer, or use prior setting
+    $max_width  = intval( $_POST['maxwidth'] );
     $max_width = ( $max_width == '' ) ? 0 : $max_width;
     $max_width = ( ctype_digit( strval( $max_width ) ) == false ) ? get_option( 'wp_imsizer_width' ) : $max_width;
     update_option( 'wp_imsizer_width', $max_width );
 
     // Validate height input integer, or use prior setting
+    $max_height = intval( $_POST['maxheight'] );
     $max_height = ( $max_height == '' ) ? 0 : $max_height;
     $max_height = ( ctype_digit( strval( $max_height ) ) == false ) ? get_option( 'wp_imsizer_height' ) : $max_height;
     update_option( 'wp_imsizer_height', $max_height );
-
-    // On/Off threshold limit
-    ( $threshold_option == '1' ) ? update_option( 'wp_imsizer_wplimit_onoff', '1' ) : update_option( 'wp_imsizer_wplimit_onoff', '0' );
-    // On/Off power switch
-    ( $resizing_enabled == 'yes' ) ? update_option( 'wp_imsizer_onoff', 'yes' ) : update_option( 'wp_imsizer_onoff', 'no' );
+    
+    // Image Alts
+    $wp_imsizer_alts_option = ( isset ( $_POST['wp_imsizer_alts'] ) && $_POST['wp_imsizer_alts'] == '1' ? '1' : '0' );
+    ( $wp_imsizer_alts_option == '1' ) ? update_option( 'wp_imsizer_setalts', '1' ) : update_option( 'wp_imsizer_setalts', '0' );
+    // Image Titles
+    $set_img_name_option = ( isset ( $_POST['wp_imsizer_name'] ) && $_POST['wp_imsizer_name'] == '1' ? '1' : '0' );
+    ( $set_img_name_option == '1' ) ? update_option( 'wp_imsizer_setname', '1' ) : update_option( 'wp_imsizer_setname', '0' );
+    // Image Captions
+    $set_img_capt_option = ( isset ( $_POST['wp_imsizer_capt'] ) && $_POST['wp_imsizer_capt'] == '1' ? '1' : '0' );
+    ( $set_img_capt_option == '1' ) ? update_option( 'wp_imsizer_setcapt', '1' ) : update_option( 'wp_imsizer_setcapt', '0' );
+    // Image Descriptions
+    $set_img_desc_option = ( isset ( $_POST['wp_imsizer_desc'] ) && $_POST['wp_imsizer_desc'] == '1' ? '1' : '0' );
+    ( $set_img_desc_option == '1' ) ? update_option( 'wp_imsizer_setdesc', '1' ) : update_option( 'wp_imsizer_setdesc', '0' );
+    
     // Convert PNG
+    $convert_png_to_jpg = ( isset( $_POST['convertpng'] ) && $_POST['convertpng'] == 'yes' ? 'yes' : 'no' );
     ( $convert_png_to_jpg == 'yes' ) ? update_option( 'wp_imsizer_convertpng_yesno', 'yes' ) : update_option( 'wp_imsizer_convertpng_yesno', 'no' );
 
     // Saved Notification
@@ -193,15 +218,20 @@ function wp_imsizer_options( )
   }
   
   // Get options, show settings form
-  $kill_wp_limit      = get_option( 'wp_imsizer_wplimit_onoff' );
+  $kill_wp_limit    = get_option( 'wp_imsizer_wplimit_onoff' );
 
-  $resizing_enabled   = get_option( 'wp_imsizer_onoff' );
-  $max_width          = get_option( 'wp_imsizer_width' );
-  $max_height         = get_option( 'wp_imsizer_height' );
+  $resizing_enabled = get_option( 'wp_imsizer_onoff' );
+  $max_width        = get_option( 'wp_imsizer_width' );
+  $max_height       = get_option( 'wp_imsizer_height' );
   
-  $restrict_size  = get_option( 'wp_imsizer_restrict_size' );
-  $max_file_size  = get_option( 'wp_imsizer_max_file_size' );
-  $max_file_error = get_option( 'wp_imsizer_file_size_error' );
+  $set_img_alts     = get_option( 'wp_imsizer_setalts' ); //Sets image alt tag from filename
+  $set_img_name     = get_option( 'wp_imsizer_setname' ); //Sets image title tag from filename
+  $set_img_capt     = get_option( 'wp_imsizer_setcapt' ); //Sets image caption tag from filename
+  $set_img_desc     = get_option( 'wp_imsizer_setdesc' ); //Sets image description tag from filename
+  
+  $restrict_size    = get_option( 'wp_imsizer_restrict_size' );
+  $max_file_size    = get_option( 'wp_imsizer_max_file_size' );
+  $max_file_error   = get_option( 'wp_imsizer_file_size_error' );
   
   $convert_png_to_jpg = get_option( 'wp_imsizer_convertpng_yesno' );
 
@@ -225,7 +255,7 @@ function wp_imsizer_options( )
 			<tr>
 				<th scope="row">Remove Threshold Limit?</th>
 				<td valign="top">
-          <input name="wp_imsizer_wplimit" id="wp_imsizer_wplimit" type="checkbox" value="1" <?php echo $wp_imsizer_wplimit_select; ?>/> <label for="wp_imsizer_wplimit">Disable WordPress default 2560px image limit.</em></label>
+          <input name="wp_imsizer_wplimit" id="wp_imsizer_wplimit" type="checkbox" value="1" <?php echo $wp_imsizer_wplimit_select; ?>/> <label for="wp_imsizer_wplimit">Disable WordPress default 2560px image limit.</label>
 				</td>
 			</tr>
     </table>
@@ -291,6 +321,47 @@ function wp_imsizer_options( )
 			</tr>
     </table>
     -->
+    
+		<hr style="margin:20px 0px;">
+		<h3>Image S.E.O. Options</h3>
+    
+    <p>Automatically sets filtered image Alt, Title, Caption, and Description from filename upon upload. Filters out hyphes, underscores, commas and extra spaces.<br />
+    Also, automatically capitalizes each word and will disable the default WordPress insertion of Titles from filenames.</p>
+    
+    <?php
+    ( $set_img_alts == '1' ) ? $wp_imsizer_alts_select = 'checked="checked" ' : $wp_imsizer_alts_select = ''; // Alt
+    ( $set_img_name == '1' ) ? $wp_imsizer_name_select = 'checked="checked" ' : $wp_imsizer_name_select = ''; // Title
+    ( $set_img_capt == '1' ) ? $wp_imsizer_capt_select = 'checked="checked" ' : $wp_imsizer_capt_select = ''; // Caption
+    ( $set_img_desc == '1' ) ? $wp_imsizer_desc_select = 'checked="checked" ' : $wp_imsizer_desc_select = ''; // Description
+    ?>
+		<table class="form-table">
+			<tr>
+				<th scope="row">Set Image Alt?</th>
+				<td valign="top">
+          <input name="wp_imsizer_alts" id="wp_imsizer_alts" type="checkbox" value="1" <?php echo $wp_imsizer_alts_select; ?>/> <label for="wp_imsizer_alts">Set Alt tag from filename for new uploads.</label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Set Image Title?</th>
+				<td valign="top">
+          <input name="wp_imsizer_name" id="wp_imsizer_name" type="checkbox" value="1" <?php echo $wp_imsizer_name_select; ?>/> <label for="wp_imsizer_name">Set Title tag from filename for new uploads.</label>
+					<p class="description"><strong>By Default, WordPress sets Title from filename. Unchecked, blank Title inserted. Checked, filtered Title inserted.</strong></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Set Image Caption?</th>
+				<td valign="top">
+          <input name="wp_imsizer_capt" id="wp_imsizer_capt" type="checkbox" value="1" <?php echo $wp_imsizer_capt_select; ?>/> <label for="wp_imsizer_capt">Set Caption tag from filename for new uploads. (<em>not recommended</em>)</label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">Set Image Description?</th>
+				<td valign="top">
+          <input name="wp_imsizer_desc" id="wp_imsizer_desc" type="checkbox" value="1" <?php echo $wp_imsizer_desc_select; ?>/> <label for="wp_imsizer_desc">Set Description tag from filename for new uploads (<em>not recommended</em>).</label>
+				</td>
+			</tr>
+    </table>
+
 		<hr style="margin:20px 0px;">
 		<h3>Image Conversion Options</h3>
 		
@@ -408,6 +479,42 @@ function wp_imsizer_upload_resize( $image_data )
     wp_imsizer_error_log("--no-action-required");
   }
   wp_imsizer_error_log("**-end--resize-image-upload\n");
+  
+  # Automatically sets the image Title, Alt-Text, Caption & Description upon upload
+  add_action( 'add_attachment', 'my_set_image_meta_upon_image_upload' );
+  function my_set_image_meta_upon_image_upload( $post_ID )
+  {
+    $set_img_alts = get_option( 'wp_imsizer_setalts' ); //Sets image alt tag from filename
+    $set_img_name = get_option( 'wp_imsizer_setname' ); //Sets image title tag from filename
+    $set_img_capt = get_option( 'wp_imsizer_setcapt' ); //Sets image caption tag from filename
+    $set_img_desc = get_option( 'wp_imsizer_setdesc' ); //Sets image description tag from filename
+
+    // Check if upload is image
+    if( wp_attachment_is_image( $post_ID ) )
+    {
+      // Get title from filename
+      $my_image_title = get_post( $post_ID )->post_title;
+      // Remove hyphens, underscores, extra spaces
+      $my_image_title = preg_replace( '%\s*[-_,\s]+\s*%', ' ', $my_image_title );
+      // Capitalize first letter of every word, others are lowercase
+      $my_image_title = ucwords( strtolower( $my_image_title ) );
+      // Image Meta Array (Title, Caption, Description)
+      $my_image_meta = array(
+        'ID' => $post_ID,
+        'post_title' => ( $set_img_name == '1' ) ? $my_image_title : '',
+        'post_excerpt' => ( $set_img_capt == '1' ) ? $my_image_title : '',
+        'post_content' => ( $set_img_desc == '1' ) ? $my_image_title : ''
+      );
+      if ( $set_img_alts == '1' )
+      {
+        // Set image Alt-Text
+        update_post_meta( $post_ID, '_wp_attachment_image_alt', $my_image_title );
+      }
+      // Set image Meta (Title, Excerpt/Caption, Content/Description)
+      wp_update_post( $my_image_meta );
+    }
+  }
+  
   return $image_data;
 }
 
