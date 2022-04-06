@@ -5,8 +5,8 @@ Tags: image, alt, title, seo, resize, scale, scaled, file size limit, png conver
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
-Tested up to: 5.8
-Stable tag: 1.2.0
+Tested up to: 5.9
+Stable tag: 1.2.1
 
 Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
 
@@ -16,7 +16,7 @@ WP Imsizer (short for Image Resizer) is a plugin for [WordPress](https://wordpre
 
 When someone uploads an image that is larger than your set dimensions, WP Imsizer will automatically scale it down to your desired pre-configured size and replace the original image.  
 
-Now can automatically set filtered image upload Alt, Title, Caption, and Descriptions from filename. Filters out hyphens, underscores, commas and extra spaces. Also, automatically capitalizes each word and will disable the default WordPress insertion of Titles from filenames.  
+Now can automatically set filtered image upload Alt, Title, Caption, and Descriptions from filename. Filters out hyphes, underscores, commas and extra spaces. Also, automatically capitalizes each word and will disable the default WordPress insertion of Titles from filenames.  
 
 The [WP Imsizer Plugin](https://wordpress.org/plugins/wp-imsizer/) is ideal for WordPress web sites and blogs that do not require super high resolution images. This will save space on your server, speed up your page speed performance, and reduce bandwidth utilization for both you and your visitors. As a result of being able to quickly display your media on your web site, this will most likely [improve your search engine ranking](https://moz.com/learn/seo/page-speed).  
 
@@ -44,6 +44,9 @@ Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you t
 1. WP Imsizer options page.
 
 == Changelog ==
+
+= 1.2.1 =
+* Tested against WordPress 5.9
 
 = 1.2.0 (2021-07-27) =
 * Introduced Image S.E.O. Options to auto filter and set uploaded image Alt tags, Titles, Captions and Descriptions.
