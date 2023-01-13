@@ -1,13 +1,13 @@
 # WP Imsizer
 
-Contributors: endurox  
+Contributors: Manny Rodrigues  
 Donate link: https://endurtech.com/give-thanks/  
 Tags: image, alt, title, seo, resize, scale, scaled, file size limit, png convert  
 License: GPLv3 or later  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 Requires at least: 5.3  
-Tested up to: 5.8  
-Stable tag: 1.2.0  
+Tested up to: 6.1  
+Stable tag: 1.2.3  
 
 ## Description
 
@@ -45,23 +45,35 @@ Stable tag: 1.2.0
 
 ## Changelog
 
-= 1.2.0 (2021-07-27) =
-* Introduced Image S.E.O. Options to auto filter and set uploaded image Alt tags, Titles, Captions and Descriptions.
+* 1.2.3 (2022-10-26)
+  * Tested against WordPress 6.1
 
-= 1.1.4 =
-* Tested against WordPress 5.8
+* 1.2.2 (2022-05-10)
+  * Tested against WordPress 6.0
 
-= 1.1.3 =
-* Tested against WordPress 5.7
+* 1.2.1
+  * Tested against WordPress 5.9
 
-= 1.1.2 =
-* Tested against WordPress 5.6
+* 1.2.0 (2021-07-27)
+  * Introduced Image S.E.O. Options to auto filter and set uploaded image Alt tags, Titles, Captions and Descriptions.
 
-= 1.1.1 =
-* Tested against WordPress 5.5
+* 1.2.0 (2021-07-27)
+  * Introduced Image S.E.O. Options to auto filter and set uploaded image Alt tags, Titles, Captions and Descriptions.
 
-= 1.1.0 =
-* Initial release.
+* 1.1.4
+  * Tested against WordPress 5.8
+
+* 1.1.3
+  * Tested against WordPress 5.7
+
+* 1.1.2
+  * Tested against WordPress 5.6
+
+* 1.1.1
+  * Tested against WordPress 5.5
+
+* 1.1.0
+  * Initial release.
 
 ## Frequently Asked Questions
 
