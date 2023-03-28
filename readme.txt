@@ -1,12 +1,12 @@
 === WP Imsizer ===
-Contributors: endurox
+Contributors: wpgearpro, endurox
 Donate link: https://endurtech.com/give-thanks/
 Tags: image, alt, title, seo, resize, scale, scaled, file size limit, png convert
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.3
-Tested up to: 6.1
-Stable tag: 1.2.3
+Requires at least: 5.4
+Tested up to: 6.2
+Stable tag: 1.2.4
 
 Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
 
@@ -38,13 +38,15 @@ Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you t
 1. Upload the plugin folder to your '/wp-content/plugins/' folder.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Visit the plugin settings page and adjust the options as needed.
-4. Visit the plugin settings page and adjust the options as needed.  
 
 == Screenshots ==
 
 1. WP Imsizer options page.
 
 == Changelog ==
+
+= 1.2.4 (2023-03-28) =
+* Tested against WordPress 6.2
 
 = 1.2.3 (2022-10-26) =
 * Tested against WordPress 6.1

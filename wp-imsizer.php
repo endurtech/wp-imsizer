@@ -7,9 +7,9 @@ Author: Manny Rodrigues
 Author URI: https://endurtech.com
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.3
-Tested up to: 6.1
-Version: 1.2.3
+Requires at least: 5.4
+Tested up to: 6.2
+Version: 1.2.4
 Text Domain: wp-imsizer
 Domain Path: /locale
 
@@ -69,7 +69,7 @@ $PLUGIN_VERSION = '1.2.1';
 $DEBUG_LOGGER = false;
 //define( 'WPIMSIZER_TITLE', 'WP Imsizer' ); // Title
 //define( 'WPIMSIZER_TITLE_OPTIONS', 'WP Imsizer Options' ); // Settings/Options page title 
-//define( 'WPIMSIZER_VERSION', '1.1.0' );
+//define( 'WPIMSIZER_VERSION', '1.2.4' );
 //define( 'WPIMSIZER_DEBUG_LOGGER', false );
 
 // WordPress plugin registering default values
