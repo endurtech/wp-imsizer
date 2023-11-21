@@ -3,13 +3,13 @@
 Plugin Name: WP Imsizer
 Plugin URI: https://endurtech.com/wp-imsizer-wordpress-plugin/
 Description: Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
-Author: Manny Rodrigues
-Author URI: https://endurtech.com
+Author: WP Gear Pro
+Author URI: https://wpgearpro.com
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
-Tested up to: 6.2
-Version: 1.2.4
+Tested up to: 6.4
+Version: 1.2.6
 Text Domain: wp-imsizer
 Domain Path: /locale
 
@@ -65,7 +65,7 @@ if( ! defined( 'ABSPATH' ) )
   exit(); // No direct access
 }
 
-$PLUGIN_VERSION = '1.2.1';
+$PLUGIN_VERSION = '1.2.6';
 $DEBUG_LOGGER = false;
 //define( 'WPIMSIZER_TITLE', 'WP Imsizer' ); // Title
 //define( 'WPIMSIZER_TITLE_OPTIONS', 'WP Imsizer Options' ); // Settings/Options page title 
