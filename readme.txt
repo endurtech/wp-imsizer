@@ -5,7 +5,7 @@ Tags: image, alt, title, seo, resize, scale, scaled, file size limit, png conver
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
-Tested up to: 6.2
+Tested up to: 6.2a
 Stable tag: 1.2.4
 
 Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
