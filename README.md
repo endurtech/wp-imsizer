@@ -6,8 +6,8 @@ Tags: resize image, image resize, image file limit, png convert, seo
 License: GPLv3 or later  
 License URI: http://www.gnu.org/licenses/gpl-3.0.html  
 Requires at least: 5.4  
-Tested up to: 6.5  
-Stable tag: 1.2.8  
+Tested up to: 6.8  
+Stable tag: 1.2.9  
 
 ## Description
 
@@ -44,6 +44,9 @@ Stable tag: 1.2.8
 1. WP Imsizer options page.
 
 ## Changelog
+
+* 1.2.9 (2024-12-31)
+  * Tested against WordPress 6.7.2
 
 * 1.2.8 (2024-04-02)
   * Added WordPress Repository blueprint feature for user previews.

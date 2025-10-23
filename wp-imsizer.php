@@ -8,8 +8,8 @@ Author URI: https://wpgearpro.com
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
-Tested up to: 6.5
-Version: 1.2.8
+Tested up to: 6.8
+Version: 1.2.9
 Text Domain: wp-imsizer
 Domain Path: /locale
 
@@ -65,7 +65,7 @@ if( ! defined( 'ABSPATH' ) )
   exit(); // No direct access
 }
 
-$PLUGIN_VERSION = '1.2.6';
+$PLUGIN_VERSION = '1.2.9';
 $DEBUG_LOGGER = false;
 //define( 'WPIMSIZER_TITLE', 'WP Imsizer' ); // Title
 //define( 'WPIMSIZER_TITLE_OPTIONS', 'WP Imsizer Options' ); // Settings/Options page title 
