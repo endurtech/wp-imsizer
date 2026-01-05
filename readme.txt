@@ -5,8 +5,8 @@ Tags: resize image, image resize, image file limit, png convert, seo
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
-Tested up to: 6.8
-Stable tag: 1.2.9
+Tested up to: 6.10
+Stable tag: 1.2.10
 
 Auto resize/convert image uploads to set height/width or file type. Auto set image alt, title tags, limit file size and disable 2560px limit.
 
@@ -44,6 +44,9 @@ Did [this plugin](https://endurtech.com/wp-imsizer-wordpress-plugin/) save you t
 1. WP Imsizer options page.
 
 == Changelog ==
+
+= 1.2.10 (2026-01-05)
+* Tested against WordPress 6.9
 
 = 1.2.9 (2024-12-31) =
 * Tested against WordPress 6.7.2
